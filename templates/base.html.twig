@@ -13,6 +13,15 @@
         {% block importmap %}
             {{ importmap('app') }}
         {% endblock %}
+        <script>
+            {% if app.user %}
+                console.log('✅ Utilisateur connecté:', '{{ app.user.userIdentifier }}');
+                console.log('👤 Username:', '{{ app.user.username ?? "N/A" }}');
+                console.log('🔑 Roles:', {{ app.user.roles|json_encode|raw }});
+            {% else %}
+                console.log('❌ Utilisateur non connecté');
+            {% endif %}
+        </script>
     {% endblock %} 
 </head>
 <body>

@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion de Tâches{% endblock %}
+
+{% block body %}
+<div class="flex h-screen bg-gray-50">
+    
+    {# Sidebar #}
+    <aside class="w-64 bg-[#1E1E1E] text-white flex flex-col">
+        <div class="p-4">
+            <a href="{{ path('app_home') }}" class="flex items-center gap-3 px-3 py-2 bg-white text-black rounded-lg">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+                </svg>
+                <span class="font-medium">Toutes les tâches</span>
+            </a>
+        </div>
+
+        <div class="px-4 py-2">
+            <h3 class="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Dossiers</h3>
+            <p class="text-gray-500 text-sm">Aucun dossier créé</p>
+        </div>
+    </aside>
+
+    {# Main Content #}
+    <main class="flex-1 flex flex-col">
+        
+        {# Header #}
+        <header class="bg-white border-b border-gray-200 px-8 py-4">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <h1 class="text-2xl font-bold">Gestion de Tâches</h1>
+                    <p class="text-gray-500 text-sm">Organisez votre journée efficacement</p>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M3 12v3c0 1.657 3.134 3 7 3s7-1.343 7-3v-3c0 1.657-3.134 3-7 3s-7-1.343-7-3z"/>
+                            <path d="M3 7v3c0 1.657 3.134 3 7 3s7-1.343 7-3V7c0 1.657-3.134 3-7 3S3 8.657 3 7z"/>
+                            <path d="M17 5c0 1.657-3.134 3-7 3S3 6.657 3 5s3.134-3 7-3 7 1.343 7 3z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Créer les priorités</span>
+                    </button>
+                    
+                    <button class="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z" clip-rule="evenodd"/>
+                            <path d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z"/>
+                        </svg>
+                        <span class="text-sm font-medium">Nouveau dossier</span>
+                    </button>
+                    
+                    <button class="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                        </svg>
+                        <span class="text-sm font-medium">Nouvelle tâche</span>
+                    </button>
+                    
+                    <a href="{{ path('app_logout') }}" class="p-2 hover:bg-gray-100 rounded-lg" title="Déconnexion">
+                        <svg class="w-5 h-5 text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+            
+            {# Filters #}
+            <div class="flex items-center gap-4 mt-4">
+                <button class="flex items-center gap-2 px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clip-rule="evenodd"/>
+                    </svg>
+                    Filtres
+                </button>
+                
+                <button class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Statut
+                </button>
+                
+                <button class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50">
+                    Tous
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-600">Priorité</span>
+                    <select class="px-3 py-1.5 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <option>Toutes</option>
+                    </select>
+                </div>
+            </div>
+        </header>
+
+        {# Content Area #}
+        <div class="flex-1 flex items-center justify-center p-8">
+            <div class="text-center">
+                <p class="text-gray-400 text-lg">Aucune tâche pour le moment. Créez votre première tâche !</p>
+            </div>
+        </div>
+        
+    </main>
+
+</div>
+{% endblock %}
