@@ -20,12 +20,12 @@ class Folder
     #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $color = null;
+
     #[ORM\ManyToOne(inversedBy: 'folders')]
     private ?User $user = null;
 
-    /**
-     * @var Collection<int, Task>
-     */
     #[ORM\OneToMany(targetEntity: Task::class, mappedBy: 'folder')]
     private Collection $tasks;
 
@@ -47,6 +47,18 @@ class Folder
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
 
         return $this;
     }
