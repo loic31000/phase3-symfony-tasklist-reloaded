@@ -24,6 +24,12 @@ class Priority
     #[ORM\Column(unique: true)]
     private ?int $importance = null;
 
+    #[ORM\Column(length: 7, nullable: true)]
+    private ?string $color = null;
+
+    #[ORM\ManyToOne(inversedBy: 'priorities')]
+    private ?User $user = null;
+
     /**
      * @var Collection<int, Task>
      */
@@ -60,6 +66,30 @@ class Priority
     public function setImportance(int $importance): static
     {
         $this->importance = $importance;
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): static
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

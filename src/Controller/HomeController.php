@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\FolderRepository;
+use App\Repository\TaskRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,12 +13,14 @@ class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
     #[IsGranted('ROLE_USER')]
-    public function index(FolderRepository $folderRepository): Response
+    public function index(FolderRepository $folderRepository, TaskRepository $taskRepository): Response
     {
         $folders = $folderRepository->findBy(['user' => $this->getUser()]);
+        $tasks = $taskRepository->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
         
         return $this->render('home/index.html.twig', [
             'folders' => $folders,
+            'tasks' => $tasks,
         ]);
     }
 }
