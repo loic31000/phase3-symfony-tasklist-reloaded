@@ -7,6 +7,7 @@ use App\Entity\Task;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -19,7 +20,7 @@ class TaskController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $task = new Task();
-        $task->setStatus(TaskStatus::PENDING);
+        $task->setStatus(TaskStatus::EN_COURS);
         $task->setIsPinned(false);
         
         $form = $this->createForm(TaskType::class, $task, [
@@ -92,5 +93,32 @@ class TaskController extends AbstractController
         }
 
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/task/{id}/toggle-status', name: 'app_task_toggle_status', methods: ['POST'])]
+    public function toggleStatus(Request $request, Task $task, EntityManagerInterface $entityManager): JsonResponse
+    {
+        // Vérifier que l'utilisateur est propriétaire
+        if ($task->getUser() !== $this->getUser()) {
+            return new JsonResponse(['error' => 'Access denied'], 403);
+        }
+
+        $data = json_decode($request->getContent(), true);
+        $completed = $data['completed'] ?? false;
+
+        // Changer le statut selon la checkbox
+        if ($completed) {
+            $task->setStatus(TaskStatus::TERMINEE);
+        } else {
+            $task->setStatus(TaskStatus::EN_COURS);
+        }
+
+        $entityManager->flush();
+
+        return new JsonResponse([
+            'success' => true,
+            'status' => $task->getStatus()->value,
+            'label' => $task->getStatus()->getLabel()
+        ]);
     }
 }

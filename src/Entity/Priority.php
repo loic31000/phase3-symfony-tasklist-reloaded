@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PriorityRepository::class)]
-#[UniqueEntity('name','importance')]
-#[UniqueEntity(fields: ['name', 'importance'])]
+#[UniqueEntity(fields: ['name', 'user'], message: 'Vous avez déjà une priorité avec ce nom')]
+#[UniqueEntity(fields: ['importance', 'user'], message: 'Vous avez déjà une priorité avec ce niveau d\'importance')]
 class Priority
 {
     #[ORM\Id]
@@ -18,10 +18,10 @@ class Priority
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(unique: true)]
+    #[ORM\Column]
     private ?int $importance = null;
 
     #[ORM\Column(length: 7, nullable: true)]

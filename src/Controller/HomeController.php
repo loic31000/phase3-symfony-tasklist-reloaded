@@ -18,6 +18,11 @@ class HomeController extends AbstractController
         $folders = $folderRepository->findBy(['user' => $this->getUser()]);
         $tasks = $taskRepository->findBy(['user' => $this->getUser()], ['id' => 'DESC']);
         
+        // Trier les tâches selon leur statut : en cours, terminée, archivée
+        usort($tasks, function($a, $b) {
+            return $a->getStatus()->getOrder() <=> $b->getStatus()->getOrder();
+        });
+        
         return $this->render('home/index.html.twig', [
             'folders' => $folders,
             'tasks' => $tasks,

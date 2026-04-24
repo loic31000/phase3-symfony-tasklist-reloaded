@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
-#[UniqueEntity('title')]
+#[UniqueEntity(fields: ['title', 'user'], message: 'Vous avez déjà une tâche avec ce titre')]
 class Task
 {
     #[ORM\Id]
@@ -17,7 +17,7 @@ class Task
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(type: 'string', enumType: TaskStatus::class)]
