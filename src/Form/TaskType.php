@@ -52,6 +52,7 @@ class TaskType extends AbstractType
             ->add('status', EnumType::class, [
                 'label' => 'Statut',
                 'class' => TaskStatus::class,
+                'choice_label' => fn(TaskStatus $status) => $status->getLabel(),
             ])
         ;
     }
