@@ -1,106 +1,96 @@
-# phase3-symfony-tasklist-reloaded
-Une application de gestion de tâches priorisées et organisées en dossiers. Développée avec Symfony.
+# TaskList Reloaded
 
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-8.4-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.4">
+  <img src="https://img.shields.io/badge/Symfony-8.0-000000?style=for-the-badge&logo=symfony&logoColor=white" alt="Symfony 8">
+  <img src="https://img.shields.io/badge/Doctrine-ORM-FC6A31?style=for-the-badge&logo=doctrine&logoColor=white" alt="Doctrine ORM">
+  <img src="https://img.shields.io/badge/Twig-3-000000?style=for-the-badge&logo=twig&logoColor=white" alt="Twig">
+  <img src="https://img.shields.io/badge/TailwindCSS-38BDF8?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
+  <img src="https://img.shields.io/badge/Stimulus-77E8B9?style=for-the-badge&logo=stimulus&logoColor=black" alt="Stimulus">
+</p>
 
-# Projet TaskList Reloaded
-Le bon vieux Tasklist, c'est le projet CRUD classique idéal pour faire un tour d'horizon de Symfony. :)
+Application Symfony de gestion de tâches personnelles avec authentification, priorités, dossiers, statuts et filtres.
 
-*Have fun and don't forget to `symfony console cache:clear`*
+Ce dépôt est un fork de [CHAOUCHI/phase3-symfony-tasklist-reloaded](https://github.com/CHAOUCHI/phase3-symfony-tasklist-reloaded).
 
-> Ici se trouve le cahier des charges fonctionnel et une partie du cahier des charges non fonctionnel (le schéma de la base de données).
+## Fonctionnalités vérifiées
 
-## Objectif pédagogique : le CRUD, les relations SQL simples et l'authentification.
+- inscription avec email, nom d'utilisateur et mot de passe haché ;
+- connexion et déconnexion Symfony Security ;
+- tâches associées à l'utilisateur connecté ;
+- création, affichage, modification et suppression d'une tâche ;
+- statuts `En cours`, `Terminée` et `Archivée` ;
+- changement rapide du statut via un contrôleur Stimulus ;
+- priorités personnalisées avec niveau d'importance et couleur ;
+- priorités par défaut `Urgent`, `Important` et `Normal` disponibles via les fixtures ;
+- dossiers personnels avec nom et couleur ;
+- filtrage côté interface par statut, dossier et priorité.
 
+L'entité `Task` contient également le champ `isPinned`, mais le code actuel ne contient pas de route dédiée pour basculer cette valeur.
 
-## Critères d'évaluation :
-|Critères|Description|
-|-|-|
-|MVP|Epic 1 : Gestion des tâches |
-|Respect de la maquette |
-|   Implémentation du diagramme UML pour la BDD|
-| Authorization | Routes privées et publiques|
-| Readme.md Documenter le déploiement | Rédigez un Readme qui explique comment lancer l'application à partir d'un serveur ou d'un PC neuf |
-|V2 (bonus) | Epic 2 : Organisation & Tri |
+## Stack et données
 
-## Cahier des charges fonctionnel
+Le projet utilise Symfony 8, PHP 8.4, Doctrine ORM, Twig, Stimulus et le bundle Tailwind.
 
-### Synopsis
-Une application de gestion de tâches priorisées et organisées en dossiers. Développée avec Symfony.
+La configuration par défaut de `.env` utilise SQLite :
 
-### Maquette
-
-Maquette interactive :
-https://www.figma.com/proto/O1CFvazkgkjUsdGpVpozRj/Untitled?node-id=4-823&t=S5RtpiUl6nNUacow-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=4%3A823&show-proto-sidebar=1
-
-
-### Epic 1 : Gestion des tâches
-
-- User Story 1 : En tant qu'utilisateur, je veux créer une tâche avec un titre et une priorité afin d'organiser ma journée.
-    - CA 1 : L'utilisateur peut créer ses propres priorités.
-    - CA 2 : Les priorités disponibles par défaut sont : "urgent", "important", "normal".
-
-- User Story 2 : En tant qu'utilisateur, je veux marquer le statut d'une tâche comme terminée afin de suivre mon avancement.
-    - CA 1 : Une tâche peut avoir les statuts suivants : "en cours", "terminée", "archivée".
-    - CA 2 : Les tâches archivées se retrouvent à la fin de la liste des tâches.
-    - CA 3 : Les tâches terminées se retrouvent juste avant les tâches archivées et leur titre est barré.
-    - CA 4 : Les tâches en cours apparaissent juste avant les tâches terminées dans la liste des tâches.
-
-- User Story 3 : En tant qu'utilisateur, je veux épingler mes tâches les plus importantes afin qu'elles restent visibles en haut de ma liste.
-    - CA 1 : Je clique sur l'icône épingle d'une tâche pour l'épingler.
-
-- User Story 4 : En tant qu'utilisateur, je veux pouvoir m'inscrire et me connecter afin d'accéder à mes tâches personnelles.
-    - CA 1: L'utilisateur peut s'inscrire avec un e-mail, un nom d'utilisateur et un mot de passe.
-    - CA 2: L'utilisateur peut se connecter avec son e-mail et son mot de passe.
-    - CA 3: Les mots de passe sont stockés de manière sécurisée (par exemple, avec un hachage).
-
-### Epic 2 : Organisation & Tri
-
-- User Story 1 : En tant qu'utilisateur, je veux créer des dossiers thématiques afin de regrouper mes tâches par projet.
-    - CA 1 : Un dossier créé doit être nommé.
-    - CA 2 : Je peux associer une couleur à un dossier.
-
-- User Story 2 : En tant qu'utilisateur, je veux filtrer mes tâches par statut ou par priorité afin de me concentrer sur l'essentiel.
-    - CA 1 : Je peux filtrer les tâches par statut (en cours, terminée, archivée).
-    - CA 2 : Je peux filtrer les tâches par priorité (urgent, important, normal).
-
-
-## Cahier des charges non fonctionnel (technique et implémentation)
-
-
-## UML
-
-### EntityRelation
-```mermaid
-erDiagram
-    User{
-        int id PK
-        string email "UNIQUE"
-        string username "UNIQUE"
-        string password
-    }
-    Task{
-        int id PK
-        title string "UNIQUE"
-        status STATUS_ENUM
-        isPinned bool
-    }
-    Priority{
-        int id PK
-        string level "UNIQUE"
-    }
-    Folder{
-        int id PK
-        string name "UNIQUE"
-    }
-    
-    STATUS_ENUM{
-        pending string
-        completed string
-        archived string
-    }
-    
-    Task }o--o| Priority : has
-    User ||--o{ Task : owns
-    User ||--o{ Folder : owns
-    Folder |o--o{ Task : contains
+```text
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/data_%kernel.environment%.db"
 ```
+
+Le dépôt fournit aussi une configuration Docker Compose pour PostgreSQL 16.
+
+## Installation
+
+```bash
+git clone https://github.com/loic31000/phase3-symfony-tasklist-reloaded.git
+cd phase3-symfony-tasklist-reloaded
+composer install
+php bin/console doctrine:migrations:migrate
+```
+
+Pour charger les priorités par défaut sur une base de développement :
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+Attention : la commande Doctrine Fixtures purge la base ciblée avant le chargement.
+
+Si Symfony CLI est installé :
+
+```bash
+symfony serve
+```
+
+## PostgreSQL avec Docker
+
+```bash
+docker compose up -d database
+```
+
+Dans ce cas, adaptez `DATABASE_URL` à PostgreSQL dans un fichier local non versionné.
+
+## Structure
+
+```text
+src/
+├── Config/
+├── Controller/
+├── DataFixtures/
+├── Entity/
+├── Form/
+└── Repository/
+
+assets/controllers/
+├── task_checkbox_controller.js
+└── task_filter_controller.js
+```
+
+## Tests
+
+PHPUnit est configuré dans `composer.json` et `phpunit.dist.xml`. Le dossier `tests/` contient actuellement le bootstrap mais pas de cas de test métier.
+
+## Origine pédagogique
+
+Le cahier des charges d'origine est conservé dans l'historique du projet. Ce README décrit l'état réel du code présent sur cette branche.
